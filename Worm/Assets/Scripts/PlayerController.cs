@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed = 5f, rotationSpeed = 720f;
 
     Rigidbody rb;
+    public bool isGameOver = false;
 
     private void Start()
     {
@@ -16,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isGameOver) return;
+
         Vector3 forwardMove = transform.forward * moveSpeed;
         rb.velocity = new Vector3(forwardMove.x, rb.velocity.y, forwardMove.z);
 
@@ -26,5 +29,10 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(joystickDirection.normalized);
             rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime));
         }
+    }
+
+    public void StopMovement()
+    {
+        isGameOver = true;
     }
 }

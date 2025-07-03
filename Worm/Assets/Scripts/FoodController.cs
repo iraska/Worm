@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FoodController : MonoBehaviour
@@ -8,8 +6,7 @@ public class FoodController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Food collected!");
-            
+            GameManager.Instance.CollectFood();
             FindObjectOfType<PlayerTailController>().AddSegment();
             Destroy(gameObject);
         }

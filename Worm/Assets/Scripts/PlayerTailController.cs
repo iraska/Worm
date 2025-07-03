@@ -7,15 +7,15 @@ public class PlayerTailController : MonoBehaviour
     [SerializeField] Transform segmentPrefab;
     [SerializeField] List<Transform> segments = new List<Transform>();
     [SerializeField] float distance = 0.3f;
-
     [SerializeField] float magnetRadius = 5f;
     [SerializeField] LayerMask foodLayer;
+
     bool isMagnetActive = false;
     float magnetTimer = 0f;
 
     void Start()
     {
-        segments.Add(this.transform); // head of warm
+        segments.Add(this.transform); // head of worm
     }
 
     void Update()
@@ -57,9 +57,12 @@ public class PlayerTailController : MonoBehaviour
     private void AttractNearbyFood()
     {
         Collider[] foods = Physics.OverlapSphere(transform.position, magnetRadius, foodLayer);
+
         foreach (Collider food in foods)
         {
-            food.transform.position = Vector3.MoveTowards(food.transform.position, transform.position, 10f * Time.deltaTime);
+            Transform foodTransform = food.transform;
+            foodTransform.position = Vector3.MoveTowards(foodTransform.position, transform.position, 10f * Time.deltaTime);
+            foodTransform.localScale = Vector3.Lerp(foodTransform.localScale, Vector3.zero, Time.deltaTime * 1.1f);
         }
     }
 }
